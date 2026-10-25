@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm Really Sorry, My Princess 👑💖</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Sacramento&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'rose-custom': '#ffb7c5',
+                        'soft-pink': '#fff0f3',
+                        'deep-rose': '#e63946',
+                        'lavender-custom': '#ea86c7',
+                        'pastel-purple': '#eddcd2',
+                    },
+                    fontFamily: {
+                        sacramento: ['Sacramento', 'cursive'],
+                        dancing: ['Dancing Script', 'cursive'],
+                        poppins: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 50%, #f72585 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        .font-cursive {
+            font-family: 'Dancing Script', cursive;
+        }
+        .font-sacramento {
+            font-family: 'Sacramento', cursive;
+        }
+
+        /* Floating Hearts Animation */
+        .floating-heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatUp 8s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0.3) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+            }
+            80% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Glassmorphism card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* Envelope Styles */
+        .envelope-wrapper {
+            perspective: 1000px;
+        }
+        .envelope {
+            position: relative;
+            transition: transform 0.6s ease;
+            transform-style: preserve-3d;
+        }
+        
+        /* Shimmer text effect */
+        .shimmer-text {
+            background: linear-gradient(90deg, #d62828, #ff4d6d, #7209b7, #ff4d6d, #d62828);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        /* Custom Bounce */
+        .bounce-gentle {
+            animation: bounceGentle 2s infinite;
+        }
+        @keyframes bounceGentle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Custom Modal Backdrop */
+        .modal-active {
+            display: flex !important;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-800 relative pb-12">
+
+    <!-- Background Particle Hearts Container -->
+    <div id="hearts-container" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Music Control Floating Button -->
+    <div class="fixed top-4 right-4 z-50">
+        <button id="musicToggle" onclick="toggleMusic()" class="bg-white/80 backdrop-blur-md p-3 rounded-full shadow-lg border border-pink-200 text-pink-600 hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center space-x-2">
+            <i id="musicIcon" class="fas fa-music text-lg animate-spin" style="animation-duration: 4s;"></i>
+            <span id="musicStatus" class="text-xs font-semibold pr-1 hidden sm:inline">Play Sound 🎵</span>
+        </button>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 pt-8 relative z-10">
+
+        <!-- HEADER SECTION -->
+        <header class="text-center my-6 space-y-3">
+            <div class="inline-block px-4 py-1.5 bg-pink-100/80 rounded-full text-pink-600 font-semibold text-xs tracking-wide uppercase shadow-sm border border-pink-200">
+                👑 Special Message for My Lovely Queen 👑
+            </div>
+            <h1 class="text-4xl sm:text-6xl font-bold font-sacramento shimmer-text py-2">
+                I'm Really Sorry, My Princess 👑💖
+            </h1>
+            <p class="text-gray-600 italic text-sm sm:text-base max-w-lg mx-auto">
+                "Aku tau aku salah udah bikin kamu nunggu dan cemas tanpa kabar..."
+            </p>
+        </header>
+
+        <!-- HERO / APOLOGY INTRODUCTION SECTION -->
+        <section class="glass-card rounded-3xl p-6 sm:p-10 shadow-xl mb-10 text-center border border-white/60 relative overflow-hidden">
+            <div class="absolute -right-8 -bottom-8 opacity-10 text-pink-500 pointer-events-none">
+                <i class="fas fa-heart text-9xl"></i>
+            </div>
+            <div class="inline-block p-4 bg-pink-100 rounded-full text-pink-500 mb-4 shadow-inner">
+                <i class="fas fa-sad-tear text-4xl sm:text-5xl animate-pulse"></i>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 font-cursive mb-4">
+                Maafin aku ya, Sayang... 🥺
+            </h2>
+            <p class="text-gray-700 leading-relaxed text-sm sm:text-base max-w-2xl mx-auto">
+                Aku bener-bener minta maaf karena tiba-tiba hilang dan enggak ngabarin kamu tadi. 
+                Sama sekali nggak ada maksud buat bikin kamu kesel, sedih, apalagi ngerasa ditinggalin. 
+                Kamu itu hal paling berharga buat aku, dan aku nyesel banget udah teledor sampai lupa ngabarin Princess kesayangan aku ini.
+            </p>
+        </section>
+
+        <!-- INTERACTIVE REASONS WHY I'M SORRY (CARDS) -->
+        <section class="mb-12">
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800 font-cursive text-pink-700">
+                    💖 Alasan & Janji dari Hati Aku
+                </h3>
+                <p class="text-xs sm:text-sm text-gray-600">Klik tiap kartu di bawah ini buat buka pesannya ya!</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div onclick="revealCard(this)" class="glass-card rounded-2xl p-6 text-center shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer border-2 border-pink-100 transform hover:-translate-y-1 relative group">
+                    <div class="card-front">
+                        <div class="w-14 h-14 bg-rose-100 text-rose-500 rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-shield-heart text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-1">Nggak Niat Bikin Cemas</h4>
+                        <span class="text-xs text-pink-500 underline font-semibold">Klik untuk buka 💌</span>
+                    </div>
+                    <div class="card-back hidden text-gray-700 text-xs sm:text-sm leading-relaxed">
+                        Sama sekali nggak ada niat buat bikin kamu kepikiran. Tadi ada hal mendadak yang bikin aku lupa pegang HP, tapi itu bukan alasan. Aku ngerti kamu cemas karena kamu peduli! 😭
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div onclick="revealCard(this)" class="glass-card rounded-2xl p-6 text-center shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer border-2 border-pink-100 transform hover:-translate-y-1 relative group">
+                    <div class="card-front">
+                        <div class="w-14 h-14 bg-purple-100 text-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-face-flushed text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-1">Kangen Banter & Nyesel</h4>
+                        <span class="text-xs text-pink-500 underline font-semibold">Klik untuk buka 💌</span>
+                    </div>
+                    <div class="card-back hidden text-gray-700 text-xs sm:text-sm leading-relaxed">
+                        Pas sadar aku belum ngabarin, aku langsung merasa bersalah banget. Seharian nggak ngobrol sama Princess rasanya ada yang kurang banget di hidup aku!
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div onclick="revealCard(this)" class="glass-card rounded-2xl p-6 text-center shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer border-2 border-pink-100 transform hover:-translate-y-1 relative group">
+                    <div class="card-front">
+                        <div class="w-14 h-14 bg-red-100 text-red-500 rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-hand-holding-heart text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-1">Janji Nggak Ulangi</h4>
+                        <span class="text-xs text-pink-500 underline font-semibold">Klik untuk buka 💌</span>
+                    </div>
+                    <div class="card-back hidden text-gray-700 text-xs sm:text-sm leading-relaxed">
+                        Aku janji bakal lebih teliti dan selalu usahain izin atau kasih kabar sekecil apa pun itu, biar Princess aku ini nggak pernah ngerasa diabaikan lagi. Pinky promise! 🤙✨
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE LETTER SECTION -->
+        <section class="mb-12 text-center">
+            <h3 class="text-2xl font-bold text-gray-800 font-cursive text-pink-700 mb-2">
+                💌 Surat Rahasia Buat Princess
+            </h3>
+            <p class="text-xs sm:text-sm text-gray-600 mb-6">Sentuh amplop di bawah ini untuk membaca suratnya...</p>
+
+            <div class="flex justify-center">
+                <div id="envelope" onclick="openLetter()" class="glass-card w-full max-w-md p-8 rounded-3xl shadow-xl border-2 border-pink-200 cursor-pointer hover:border-pink-400 transition-all duration-300 relative group">
+                    <div id="envelope-closed-content" class="flex flex-col items-center justify-center space-y-3">
+                        <div class="w-20 h-20 bg-pink-100 text-pink-500 rounded-full flex items-center justify-center text-4xl shadow-inner group-hover:scale-110 transition-transform">
+                            <i class="fas fa-envelope-open-text"></i>
+                        </div>
+                        <p class="font-bold text-gray-700">Buka Surat Cinta & Permohonan Maaf</p>
+                        <span class="text-xs bg-pink-500 text-white px-3 py-1 rounded-full shadow-sm">Tap Here 💖</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FORGIVENESS METER & PLAYFUL BUTTONS -->
+        <section class="glass-card rounded-3xl p-6 sm:p-10 shadow-xl mb-12 text-center border border-white/60 relative">
+            <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 font-cursive mb-2 text-pink-600">
+                Apakah Princess Mau Maafin Aku? 🥺✨
+            </h3>
+            <p class="text-xs sm:text-sm text-gray-600 mb-8">
+                Jawab dengan jujur yaa, tapi jangan galak-galak hehe...
+            </p>
+
+            <div id="button-group" class="flex flex-col sm:flex-row items-center justify-center gap-4 relative min-h-[120px]">
+                <!-- Forgive Button -->
+                <button id="yesBtn" onclick="forgiveMe()" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold rounded-2xl shadow-lg hover:shadow-pink-300/50 transform hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center space-x-2 text-lg">
+                    <span>Maafin Kok 💕</span>
+                    <i class="fas fa-heart text-xl animate-ping"></i>
+                </button>
+
+                <!-- Runaway / Angry Button -->
+                <button id="noBtn" onmouseenter="dodgeButton()" onclick="handleNoClick()" class="w-full sm:w-auto px-8 py-4 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-2xl shadow transition-all duration-200 text-base">
+                    <span id="noBtnText">Masih Sebel 😤</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- VIRTUAL GIFTS SECTION -->
+        <section class="mb-12">
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800 font-cursive text-pink-700">
+                    🎁 Sogokan Buat Tuan Putri (Virtual Gifts)
+                </h3>
+                <p class="text-xs sm:text-sm text-gray-600">Pilih salah satu (atau semuanya) buat penawar rasa kesel kamu!</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <button onclick="sendGift('Virtual Warm Hug 🫂', 'Pelukan hangat paling erat khusus buat Princess yang cantik biar ngambeknya hilang!')" class="glass-card p-5 rounded-2xl text-center hover:bg-pink-50/80 transition-all border border-pink-100 group shadow-sm hover:shadow-md">
+                    <div class="text-4xl mb-2 group-hover:scale-125 transition-transform">🫂</div>
+                    <div class="font-bold text-gray-800 text-sm">Pelukan Hangat</div>
+                    <div class="text-xs text-gray-500 mt-1">Unlimited hug for you</div>
+                </button>
+
+                <button onclick="sendGift('Buket Bunga Tulip 🌷', 'Bunga cantik buat cewek paling cantik sekagetan! Semoga senyum kamu balik lagi.')" class="glass-card p-5 rounded-2xl text-center hover:bg-pink-50/80 transition-all border border-pink-100 group shadow-sm hover:shadow-md">
+                    <div class="text-4xl mb-2 group-hover:scale-125 transition-transform">🌷</div>
+                    <div class="font-bold text-gray-800 text-sm">Buket Tulip Virtual</div>
+                    <div class="text-xs text-gray-500 mt-1">Fresh & Pretty</div>
+                </button>
+
+                <button onclick="sendGift('Boba Kesukaan 🧋', 'Segelas Boba manis dingin siap meluncur buat nemenin kamu biar nggak badmood lagi!')" class="glass-card p-5 rounded-2xl text-center hover:bg-pink-50/80 transition-all border border-pink-100 group shadow-sm hover:shadow-md">
+                    <div class="text-4xl mb-2 group-hover:scale-125 transition-transform">🧋</div>
+                    <div class="font-bold text-gray-800 text-sm">Boba Manis</div>
+                    <div class="text-xs text-gray-500 mt-1">Extra Sugar & Love</div>
+                </button>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="text-center text-xs text-gray-500 pt-6">
+            <p class="font-cursive text-xl text-pink-600 mb-1">Forever Yours, Your Boy</p>
+            <p>© Craft with ❤️ special for My Princess</p>
+        </footer>
+
+    </div>
+
+    <!-- MODAL FOR LETTER -->
+    <div id="letterModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="glass-card bg-white/95 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-pink-200 relative transform transition-all scale-95 opacity-0" id="letterModalCard">
+            <button onclick="closeLetter()" class="absolute top-4 right-4 text-gray-400 hover:text-pink-500 text-xl w-8 h-8 rounded-full flex items-center justify-center bg-gray-100">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="text-center mb-4">
+                <span class="text-3xl">👑💌</span>
+                <h3 class="text-2xl font-bold font-sacramento text-pink-600">Surat Untuk Tuan Putriku</h3>
+            </div>
+            <div class="text-gray-700 text-sm leading-relaxed space-y-3 font-poppins max-h-[60vh] overflow-y-auto pr-2">
+                <p>Halo Tuan Putri kesayangan aku,</p>
+                <p>
+                    Saat aku nulis ini, aku bener-bener ngerasa bersalah banget. Aku tahu kabar dari aku itu hal kecil yang bikin kamu merasa aman dan dihargai, tapi tadi aku malah lalai dan bikin kamu nunggu tanpa kepastian.
+                </p>
+                <p>
+                    Maafin aku ya, Sayang... Aku nggak berniat sedikit pun buat sepelein perasaan kamu. Kamu selalu jadi prioritas aku, dan melihat kamu kecewa karena aku itu rasanya bikin hati aku sakit juga.
+                </p>
+                <p>
+                    Terima kasih udah selalu sabar menghadapi aku. Tolong jangan tekut dahi lagi ya, nanti cantiknya berkurang (meskipun tetep paling cantik sih hehe). Janji habis ini aku bakal selalu kabarin kamu!
+                </p>
+                <p class="font-bold text-pink-600 text-right font-cursive text-lg">
+                    I love you so much, Princess! ❤️
+                </p>
+            </div>
+            <div class="mt-6 text-center">
+                <button onclick="closeLetter()" class="px-6 py-2.5 bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-xl text-sm shadow-md transition-all">
+                    Tutup Surat & Peluk 🫂
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL FOR GIFTS -->
+    <div id="giftModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="glass-card bg-white/95 rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl border border-pink-200 relative">
+            <div id="giftIcon" class="text-6xl mb-3">🎁</div>
+            <h3 id="giftTitle" class="text-xl font-bold text-gray-800 mb-2 font-cursive text-pink-600">Gift Title</h3>
+            <p id="giftDesc" class="text-gray-600 text-xs sm:text-sm mb-6">Gift Description</p>
+            <button onclick="closeGiftModal()" class="w-full py-3 bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-xl text-sm shadow-md transition-all">
+                Makasih Sayang! 🥰
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL FOR FORGIVENESS SUCCESS -->
+    <div id="successModal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+        <div class="glass-card bg-white/95 rounded-3xl max-w-md w-full p-8 text-center shadow-2xl border-2 border-pink-300 relative animate-bounce-short">
+            <div class="w-20 h-20 bg-pink-100 text-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl shadow-inner">
+                <i class="fas fa-heart text-rose-500 animate-pulse"></i>
+            </div>
+            <h3 class="text-3xl font-bold font-sacramento text-pink-600 mb-2">
+                YAYYY! Makasih Princess! 🎉💖
+            </h3>
+            <p class="text-gray-700 text-sm mb-6 leading-relaxed">
+                Makasih banyak ya udah mau maafin aku. Janji nggak bakal bikin kamu cemas lagi! Sekarang senyum dong, mwah! 💋✨
+            </p>
+            <div class="p-4 bg-pink-50 rounded-2xl border border-pink-100 mb-6">
+                <p class="text-xs text-pink-600 font-semibold italic">"You are my favorite person in the entire world."</p>
+            </div>
+            <button onclick="closeSuccessModal()" class="w-full py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold rounded-xl shadow-lg hover:shadow-pink-300/50 transition-all text-sm">
+                Love You Too! ❤️
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* -------------------------------------------------------------
+         * 1. BACKGROUND FLOATING HEARTS GENERATOR
+         * ------------------------------------------------------------- */
+        function createFloatingHearts() {
+            const container = document.getElementById('hearts-container');
+            const heartIcons = ['💖', '💕', '🌸', '✨', '👑', '💗'];
+            
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                
+                // Randomize positions and animations
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                heart.style.animationDelay = (Math.random() * 5) + 's';
+                heart.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+                
+                container.appendChild(heart);
+            }
+        }
+        createFloatingHearts();
+
+        /* -------------------------------------------------------------
+         * 2. REVEALABLE CARDS LOGIC
+         * ------------------------------------------------------------- */
+        function revealCard(element) {
+            const front = element.querySelector('.card-front');
+            const back = element.querySelector('.card-back');
+            
+            if (back.classList.contains('hidden')) {
+                front.classList.add('hidden');
+                back.classList.remove('hidden');
+                element.classList.add('bg-pink-50/90', 'border-pink-300');
+            } else {
+                back.classList.add('hidden');
+                front.classList.remove('hidden');
+                element.classList.remove('bg-pink-50/90', 'border-pink-300');
+            }
+        }
+
+        /* -------------------------------------------------------------
+         * 3. LETTER MODAL LOGIC
+         * ------------------------------------------------------------- */
+        function openLetter() {
+            const modal = document.getElementById('letterModal');
+            const modalCard = document.getElementById('letterModalCard');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modalCard.classList.remove('scale-95', 'opacity-0');
+                modalCard.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            triggerMiniConfetti();
+        }
+
+        function closeLetter() {
+            const modal = document.getElementById('letterModal');
+            const modalCard = document.getElementById('letterModalCard');
+            modalCard.classList.remove('scale-100', 'opacity-100');
+            modalCard.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        /* -------------------------------------------------------------
+         * 4. PLAYFUL "RUNAWAY" BUTTON LOGIC
+         * ------------------------------------------------------------- */
+        let noClickCount = 0;
+        const noMessages = [
+            "Masih Sebel 😤",
+            "Yakin nih? 🥺",
+            "Jangan gitu dong... 😭",
+            "Nanti aku sedih loh 💔",
+            "Udah maafin aja deh 🥰"
+        ];
+
+        function dodgeButton() {
+            // Only dodge on first few interactions to make it fun, not impossible
+            if (noClickCount < 3 && window.innerWidth > 640) {
+                const btn = document.getElementById('noBtn');
+                const x = (Math.random() - 0.5) * 200;
+                const y = (Math.random() - 0.5) * 100;
+                btn.style.transform = `translate(${x}px, ${y}px)`;
+            }
+        }
+
+        function handleNoClick() {
+            noClickCount++;
+            const noBtn = document.getElementById('noBtn');
+            const noBtnText = document.getElementById('noBtnText');
+            const yesBtn = document.getElementById('yesBtn');
+
+            // Reset transform position on click
+            noBtn.style.transform = 'translate(0px, 0px)';
+
+            if (noClickCount < noMessages.length) {
+                noBtnText.innerText = noMessages[noClickCount];
+                // Make Yes button bigger!
+                const currentScale = 1 + (noClickCount * 0.15);
+                yesBtn.style.transform = `scale(${currentScale})`;
+            }
+
+            if (noClickCount >= 4) {
+                // Transform NO button into a YES button
+                noBtn.className = "w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-pink-400 to-rose-400 text-white font-bold rounded-2xl shadow-lg transition-all text-base";
+                noBtnText.innerText = "Udah maafin deh 🥰";
+                noBtn.onclick = forgiveMe;
+            }
+        }
+
+        /* -------------------------------------------------------------
+         * 5. FORGIVENESS & CONFETTI CELEBRATION
+         * ------------------------------------------------------------- */
+        function forgiveMe() {
+            // Trigger Confetti
+            const duration = 3 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+                
+                // Heart shaped confetti if supported or standard colorful ones
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+                    colors: ['#ff4d6d', '#ffb7c5', '#fff0f3', '#7209b7']
+                }));
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+                    colors: ['#ff4d6d', '#ffb7c5', '#fff0f3', '#7209b7']
+                }));
+            }, 250);
+
+            // Show Success Modal
+            const modal = document.getElementById('successModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeSuccessModal() {
+            const modal = document.getElementById('successModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        function triggerMiniConfetti() {
+            confetti({
+                particleCount: 30,
+                spread: 60,
+                origin: { y: 0.7 },
+                colors: ['#ff4d6d', '#ffb7c5']
+            });
+        }
+
+        /* -------------------------------------------------------------
+         * 6. VIRTUAL GIFTS LOGIC
+         * ------------------------------------------------------------- */
+        function sendGift(title, description) {
+            document.getElementById('giftTitle').innerText = title;
+            document.getElementById('giftDesc').innerText = description;
+            
+            if (title.includes('Hug')) document.getElementById('giftIcon').innerText = '🫂';
+            else if (title.includes('Tulip')) document.getElementById('giftIcon').innerText = '🌷';
+            else if (title.includes('Boba')) document.getElementById('giftIcon').innerText = '🧋';
+
+            const modal = document.getElementById('giftModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            triggerMiniConfetti();
+        }
+
+        function closeGiftModal() {
+            const modal = document.getElementById('giftModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        /* -------------------------------------------------------------
+         * 7. WEB AUDIO API SYNTHESIZER FOR ROMANTIC MELODY
+         * ------------------------------------------------------------- */
+        let audioCtx = null;
+        let isPlaying = false;
+        let timerId = null;
+
+        const melodyNotes = [
+            { note: 261.63, duration: 0.6 }, // C4
+            { note: 329.63, duration: 0.6 }, // E4
+            { note: 392.00, duration: 0.6 }, // G4
+            { note: 493.88, duration: 0.8 }, // B4
+            { note: 440.00, duration: 0.8 }, // A4
+            { note: 392.00, duration: 0.6 }, // G4
+            { note: 349.23, duration: 0.6 }, // F4
+            { note: 329.63, duration: 1.0 }, // E4
+            { note: 293.66, duration: 0.6 }, // D4
+            { note: 329.63, duration: 0.6 }, // E4
+            { note: 349.23, duration: 0.6 }, // F4
+            { note: 392.00, duration: 1.0 }, // G4
+        ];
+
+        function playRomanticSynth() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            let noteIndex = 0;
+
+            function playNextNote() {
+                if (!isPlaying) return;
+
+                const current = melodyNotes[noteIndex];
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'sine'; // Soft romantic sound
+                osc.frequency.setValueAtTime(current.note, audioCtx.currentTime);
+
+                // Attack and Decay Envelope
+                gain.gain.setValueAtTime(0, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + current.duration);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + current.duration);
+
+                noteIndex = (noteIndex + 1) % melodyNotes.length;
+                timerId = setTimeout(playNextNote, current.duration * 1000);
+            }
+
+            playNextNote();
+        }
+
+        function toggleMusic() {
+            const musicStatus = document.getElementById('musicStatus');
+            const musicIcon = document.getElementById('musicIcon');
+
+            if (!isPlaying) {
+                isPlaying = true;
+                playRomanticSynth();
+                musicStatus.innerText = "Playing 💕";
+                musicIcon.classList.add('text-pink-600');
+                musicIcon.classList.remove('text-gray-400');
+            } else {
+                isPlaying = false;
+                clearTimeout(timerId);
+                musicStatus.innerText = "Play Sound 🎵";
+                musicIcon.classList.remove('text-pink-600');
+                musicIcon.classList.add('text-gray-400');
+            }
+        }
+    </script>
+</body>
+</html>
